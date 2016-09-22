@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">iCMS</string>
+    <string-array name="brand_array">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
+    <string-array name="supplier_array">
+        <item>dai</item>
+        <item>toan</item>
+        <item>tu</item>
+        <item>an</item>
+        <item>tien</item>
+    </string-array>
+
+
+</resources>
