@@ -17,25 +17,25 @@ import java.util.ArrayList;
 public class ProductData {
 
     //String[] brand_Cus1 = {"WooCommerce1,WooCommerce2,WooCommerce3"};
-   // String[] supplier_Cus1 = {"Wrangler Fashion Store1","Wrangler Fashion Store2","Wrangler Fashion Store3"};
+    // String[] supplier_Cus1 = {"Wrangler Fashion Store1","Wrangler Fashion Store2","Wrangler Fashion Store3"};
     Product p;
-    int color[] = {R.drawable.color1,R.drawable.color2,R.drawable.color3};
+    int color[] = {R.drawable.color1, R.drawable.color2, R.drawable.color3};
     Bitmap mtestImageproduct = null;
 
     public ArrayList<Product> getListProduct() {
-       // ArrayList<Product> mProduct = new ArrayList<>();
+        ArrayList<Product> mProduct = new ArrayList<>();
         //Bitmap imagenAndroid = BitmapFactory.decodeResource(getResources(),R.drawable.image);
 
-        p = new Product(1, "AD256", "Adidas Stan Smith Pharrell Blue Jacquard", "660", "Good", "WooCommerce1", "Wrangler Fashion Store2", 60000.0, 500.0, 5000.0, "M", color, mtestImageproduct);
-        //mProduct.add(p);
+        p = new Product(1, "AD256", "Adidas Stan Smith Pharrell Blue Jacquard 1", "660", "Good", "WooCommerce1", "Wrangler Fashion Store2", 60000.0, 500.0, 5000.0, "M", color, mtestImageproduct);
+        mProduct.add(p);
         DataHolderProduct.addProduct(p);
-        p = new Product(2, "AD257", "Adidas Stan Smith Pharrell Blue Jacquard", "660", "Good", "WooCommerce1", "Wrangler Fashion Store2", 60000.0, 500.0, 5000.0, "M", color, mtestImageproduct);
-        //mProduct.add(p);
+        p = new Product(2, "AD257", "Adidas Stan Smith Pharrell Blue Jacquard 2", "660", "Good", "WooCommerce2", "Wrangler Fashion Store1", 60000.0, 500.0, 5000.0, "X", color, mtestImageproduct);
+        mProduct.add(p);
         DataHolderProduct.addProduct(p);
 //        p = new Product(3, "AD258", "Adidas Stan Smith Pharrell Blue Jacquard", "660", "Good", "WooCommerce1", "Wrangler Fashion Store2", 60000.0, 500.0, 5000.0, "M", R.drawable.color3, R.drawable.image);
 //        DataHolderProduct.addProduct(p);
         return DataHolderProduct.getProducts();
         //mProduct.add(p);
-       // return mProduct;
+//         return mProduct;
     }
 }

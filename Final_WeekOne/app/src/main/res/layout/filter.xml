@@ -12,7 +12,7 @@
         android:layout_margin="5dp">
 
         <Spinner
-            android:id="@+id/filter_sp_supplier"
+            android:id="@+id/sp_supplier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -38,7 +38,7 @@
         android:layout_margin="5dp">
 
         <Spinner
-            android:id="@+id/filter_sp_balance"
+            android:id="@+id/sp_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -70,7 +70,7 @@
             android:layout_weight="1">
 
             <Spinner
-                android:id="@+id/filter_sp_size"
+                android:id="@+id/sp_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -98,7 +98,7 @@
             android:layout_weight="1">
 
             <Spinner
-                android:id="@+id/filter_sp_color"
+                android:id="@+id/sp_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

@@ -3,6 +3,7 @@ package com.example.sev_user.final_weekone.adapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -30,17 +31,23 @@ import android.widget.Toast;
  */
 public class ProductAdapter extends ArrayAdapter<Product> {
     ArrayList<Product> mProducts;
-    ArrayList<Product> initProducts;
+    ArrayList<Product> oriProducts;
     boolean needShowMenuIcon = true;
+
+    public void resetData() {
+        mProducts = new ArrayList<>(oriProducts);
+        notifyDataSetChanged();
+    }
 
     public ProductAdapter(Context context, int resource, ArrayList<Product> products) {
         super(context, resource, products);
-        mProducts = products;
-        initProducts = new ArrayList<>(products);
+        mProducts = new ArrayList<>(products);
+        oriProducts = new ArrayList<>(products);
         needShowMenuIcon = true;
     }
 
     public void filterSKU(String skuNumber) {
+        ArrayList<Product> initProducts = new ArrayList<>(mProducts);
         mProducts.clear();
         if (skuNumber.equals("")) {
             mProducts.addAll(initProducts);
@@ -55,10 +62,74 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         notifyDataSetChanged();
     }
 
+    public void filterSupplier(String supplier) {
+        ArrayList<Product> initProducts = new ArrayList<>(mProducts);
+        mProducts.clear();
+        if (supplier.equals("")) {
+            mProducts.addAll(initProducts);
+        } else {
+            supplier = supplier.toLowerCase();
+            for (Product product : initProducts) {
+                if (product.getSupplier().toLowerCase().contains(supplier)) {
+                    mProducts.add(product);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterColor(int color) {
+        ArrayList<Product> initProducts = new ArrayList<>(mProducts);
+        mProducts.clear();
+        if (color == 0) {
+            mProducts.addAll(initProducts);
+        } else {
+            for (Product product : initProducts) {
+                int[] colors = product.getColorProduct();
+                for (int i = 0; i < colors.length; ++i)
+                    if (colors[i] == color)
+                        mProducts.add(product);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterBalance(String balance) {
+        ArrayList<Product> initProducts = new ArrayList<>(mProducts);
+        mProducts.clear();
+        if (balance.equals("")) {
+            mProducts.addAll(initProducts);
+        } else {
+            balance = balance.toLowerCase();
+            for (Product product : initProducts) {
+                if (product.getStockBalance().toLowerCase().contains(balance)) {
+                    mProducts.add(product);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterSize(String size) {
+        ArrayList<Product> initProducts = new ArrayList<>(mProducts);
+        mProducts.clear();
+        if (size.equals("")) {
+            mProducts.addAll(initProducts);
+        } else {
+            size = size.toLowerCase();
+            for (Product product : initProducts) {
+                if (product.getSizeProduct().toLowerCase().contains(size)) {
+                    mProducts.add(product);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     public ProductAdapter(Context context, int resource, ArrayList<Product> products, boolean showMenuIcon) {
         super(context, resource, products);
         mProducts = products;
-        initProducts = new ArrayList<>(products);
+        oriProducts = new ArrayList<>(products);
         needShowMenuIcon = showMenuIcon;
     }
 
@@ -78,7 +149,8 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         final ImageView ivMenu = (ImageView) viewRow.findViewById(R.id.iv_meu);
         if (needShowMenuIcon)
             ivMenu.setVisibility(View.VISIBLE);
-        else ivMenu.setVisibility(View.GONE);
+        else
+            ivMenu.setVisibility(View.GONE);
         ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +158,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             }
         });
 
-        Product product = mProducts.get(position);
+        Product product = null;
+        if (position < mProducts.size())
+            product = mProducts.get(position);
         if (product != null) {
             holder.setViewfrom(product);
         } else

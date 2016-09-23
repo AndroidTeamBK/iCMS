@@ -33,10 +33,10 @@ public class MyDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View dialogView = inflater.inflate(R.layout.filter, container, false);
         btnFilter = (Button) dialogView.findViewById(R.id.btn_filter);
-        spinnerSupplier = (Spinner) dialogView.findViewById(R.id.filter_sp_supplier);
-        spinnerBalance = (Spinner) dialogView.findViewById(R.id.filter_sp_balance);
-        spinnerColor = (Spinner) dialogView.findViewById(R.id.filter_sp_color);
-        spinnerSize = (Spinner) dialogView.findViewById(R.id.filter_sp_size);
+        spinnerSupplier = (Spinner) dialogView.findViewById(R.id.sp_supplier);
+        spinnerBalance = (Spinner) dialogView.findViewById(R.id.sp_balance);
+        spinnerColor = (Spinner) dialogView.findViewById(R.id.sp_color);
+        spinnerSize = (Spinner) dialogView.findViewById(R.id.sp_size);
 
         SpinnerAdapter adapter = new SpinnerAdapter(getActivity().getApplicationContext(), R.layout.spinner_layout);
         adapter.addAll(years);
