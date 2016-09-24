@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -261,10 +262,8 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
             newProduct.setDiscountPrice(discountPrice);
             newProduct.setSizeProduct(size_newProduct);
             newProduct.setColorProduct(color);
-            newProduct.setImageProduct(bm);
-
-//            Intent i = new Intent(getApplicationContext(),ProductListActivity.class);
-//            startActivity(i);
+            Bitmap bitmap = ((BitmapDrawable) imgnewProduct1.getDrawable()).getBitmap();
+            newProduct.setImageProduct(bitmap);
         }
 
     }

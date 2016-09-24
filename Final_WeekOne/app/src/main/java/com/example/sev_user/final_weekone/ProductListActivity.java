@@ -63,25 +63,13 @@ public class ProductListActivity extends Activity implements AdapterCallActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
         ButterKnife.bind(this);
+        DataHolderProduct.setResources(getResources());
         addDrawerItemsAdimin();
-        //mProduct = new ProductData().getListProduct();
         fillData2ListView();
     }
 
     void fillData2ListView() {
-        Bitmap temp_ImageProduct = BitmapFactory.decodeResource(getResources(),
-                R.drawable.image);
-
-        if (DataHolderProduct.getProducts().size() == 0) {
-            mProduct = new ProductData().getListProduct();
-            for (int i = 0; i < mProduct.size(); i++) {
-                if (mProduct.get(i).getImageProduct() == null) {
-                    mProduct.get(i).setImageProduct(temp_ImageProduct);
-                    //DataHolderProduct.addProduct(mProduct.get(i));
-                }
-            }
-        } else
-            mProduct = DataHolderProduct.getProducts();
+        mProduct = DataHolderProduct.getProducts();
         adapterProduct = new ProductAdapter(this, R.layout.row_product, mProduct);
         lvProduct.setAdapter(adapterProduct);
     }
@@ -89,8 +77,7 @@ public class ProductListActivity extends Activity implements AdapterCallActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-        fillData2ListView();
-        //updateListview();
+        updateListview();
     }
 
     private void updateListview() {

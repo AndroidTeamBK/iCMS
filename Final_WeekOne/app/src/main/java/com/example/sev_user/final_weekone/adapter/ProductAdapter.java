@@ -182,15 +182,15 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.edit:
-                        Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
                         Product product = mProducts.get(pos);
                         DataHolderProduct.setProduct(product);
                         Intent intentAdd = new Intent(getContext(), EditProductActivity.class);
                         getContext().startActivity(intentAdd);
                         break;
                     case R.id.delete:
-                        Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                         mProducts.remove(pos);
+                        DataHolderProduct.deleteProduct(pos);
                         notifyDataSetChanged();
                         break;
                 }
