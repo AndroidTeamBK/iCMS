@@ -11,22 +11,24 @@ public class DataHolderProduct {
     private static Product product;
     private static ArrayList<Product> products = new ArrayList<>();
 
-    public static void clearDataProduct(){products = new ArrayList<>();}
+    public static void clearDataProduct() {
+        products = new ArrayList<>();
+    }
 
-    public static void addProduct(Product product){
+    public static void addProduct(Product product) {
         products.add(product);
     }
 
-    public static ArrayList<Product> getProducts(){
-        ArrayList<Product> selection = new ArrayList<>();
-        for(int i = 0; i < products.size();++i){
-            Product pro = products.get(i);
-            selection.add(pro);
-        }
-        return selection;
+    public static ArrayList<Product> getProducts() {
+        return new ArrayList<>(products);
     }
 
-    public static void setProduct(Product pro){ DataHolderProduct.product = pro;}
-    public static Product getProduct(){return DataHolderProduct.product; }
+    public static void setProduct(Product pro) {
+        DataHolderProduct.product = pro;
+    }
+
+    public static Product getProduct() {
+        return DataHolderProduct.product;
+    }
 
 }

@@ -93,8 +93,8 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
 
     private static final int REQUEST_CAMERA = 0;
     private static final int SELECT_FILE = 1;
-    private String userChoosenTask ="";
-    Bitmap bm=null;
+    private String userChoosenTask = "";
+    Bitmap bm = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,34 +109,36 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
             public void onClick(View v) {
                 create_newProduct();
                 DataHolderProduct.setProduct(newProduct);
+                finish();
             }
         });
     }
 
-    public void showInformationProduct(){
+    public void showInformationProduct() {
         newProduct = DataHolderProduct.getProduct();
         edt_cre_pro_skuNumber.setText(newProduct.getSkuNumber());
         edt_cre_pro_name.setText(newProduct.getNameProduct());
         edt_cre_pro_quantity.setText(newProduct.getQuantityProduct());
         edt_cre_pro_balance.setText(newProduct.getStockBalance());
-        edt_cre_pro_cost.setText(""+newProduct.getPriceProduct());
-        edt_cre_pro_unit.setText(""+newProduct.getUnitPriceProduct());
-        edt_cre_pro_discounted.setText(""+newProduct.getDiscountPrice());
+        edt_cre_pro_cost.setText("" + newProduct.getPriceProduct());
+        edt_cre_pro_unit.setText("" + newProduct.getUnitPriceProduct());
+        edt_cre_pro_discounted.setText("" + newProduct.getDiscountPrice());
         imgnewProduct1.setImageBitmap(newProduct.getImageProduct());
     }
 
     @OnClick(R.id.btnAddColor1)
-    public void showPopupSelectColorProduct(){
+    public void showPopupSelectColorProduct() {
         FragmentManager fragmentManager = getFragmentManager();
         PopupSelectImageColor popupselectColorProduct = new PopupSelectImageColor();
         popupselectColorProduct.show(fragmentManager, "edit_color_product1");
 
     }
+
     @OnClick(R.id.btn_imageProduct1)
-    public void selectImageProduct(){
-        Log.d("dai.dv","show........");
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
-                "Cancel" };
+    public void selectImageProduct() {
+        Log.d("dai.dv", "show........");
+        final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(EditProductActivity.this);
         builder.setTitle("Add Photo for Product");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -144,12 +146,12 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
             public void onClick(DialogInterface dialog, int item) {
                 boolean result = Utility.checkPermission(EditProductActivity.this);
                 if (items[item].equals("Take Photo")) {
-                    userChoosenTask="Take Photo";
-                    if(result)
+                    userChoosenTask = "Take Photo";
+                    if (result)
                         cameraIntent();
                 } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask="Choose from Library";
-                    if(result)
+                    userChoosenTask = "Choose from Library";
+                    if (result)
                         galleryIntent();
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -158,17 +160,19 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
         });
         builder.show();
     }
-    private void cameraIntent(){
+
+    private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,REQUEST_CAMERA);
+        startActivityForResult(intent, REQUEST_CAMERA);
     }
-    private void galleryIntent()
-    {
+
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -184,6 +188,7 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,6 +199,7 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
                 onCaptureImageResult(data);
         }
     }
+
     private void onSelectFromGalleryResult(Intent data) {
         //Bitmap bm=null;
         if (data != null) {
@@ -205,6 +211,7 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
         }
         imgnewProduct1.setImageBitmap(bm);
     }
+
     private void onCaptureImageResult(Intent data) {
         bm = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -224,7 +231,8 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
         }
         imgnewProduct1.setImageBitmap(bm);
     }
-    public void create_newProduct(){
+
+    public void create_newProduct() {
         String sku_newProduct = edt_cre_pro_skuNumber.getText().toString();
         String name_newProduct = edt_cre_pro_name.getText().toString();
         String quantity_newProduct = edt_cre_pro_quantity.getText().toString();
@@ -235,8 +243,8 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
         String unitPrice_newProduct = edt_cre_pro_unit.getText().toString();
         String discountPrice_newProduct = edt_cre_pro_discounted.getText().toString();
         String size_newProduct = addSizeProduct();
-        if(sku_newProduct.matches("")||name_newProduct.matches("")||quantity_newProduct.matches("")||stockBlance_newProduct.matches(""))
-            Toast.makeText(this,"Please fill full information for creating customer",Toast.LENGTH_LONG).show();
+        if (sku_newProduct.matches("") || name_newProduct.matches("") || quantity_newProduct.matches("") || stockBlance_newProduct.matches(""))
+            Toast.makeText(this, "Please fill full information for creating customer", Toast.LENGTH_LONG).show();
         else {
             double costPrice = Double.parseDouble(costPrice_newProduct);
             double unitPrice = Double.parseDouble(unitPrice_newProduct);
@@ -260,48 +268,52 @@ public class EditProductActivity extends Activity implements PopupSelectImageCol
         }
 
     }
-    public void addSpinerBrandProduct(){
+
+    public void addSpinerBrandProduct() {
         list_brandProduct = new ArrayList<String>();
         list_brandProduct.add("Samsung");
         list_brandProduct.add("Apple");
         list_brandProduct.add("Nokia");
-        spn_cre_pro_brand =(Spinner)findViewById(R.id.cre_pro_spinner_brand1);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list_brandProduct);
+        spn_cre_pro_brand = (Spinner) findViewById(R.id.cre_pro_spinner_brand1);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_brandProduct);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_cre_pro_brand.setAdapter(dataAdapter);
     }
-    public void addSpinerSupplierProduct(){
+
+    public void addSpinerSupplierProduct() {
         list_supplierProduct = new ArrayList<String>();
         list_supplierProduct.add("Mr.Dai");
         list_supplierProduct.add("Mr.Toan");
         list_supplierProduct.add("Mr.Robinson");
-        spn_cre_pro_supplier = (Spinner)findViewById(R.id.cre_pro_spinner_supplier1);
-        ArrayAdapter<String> dataadapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list_supplierProduct);
+        spn_cre_pro_supplier = (Spinner) findViewById(R.id.cre_pro_spinner_supplier1);
+        ArrayAdapter<String> dataadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_supplierProduct);
         dataadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_cre_pro_supplier.setAdapter(dataadapter);
     }
-    public String addSizeProduct(){
-        String sizeProduct="";
-        if(checkbox_size34.isChecked())
+
+    public String addSizeProduct() {
+        String sizeProduct = "";
+        if (checkbox_size34.isChecked())
             sizeProduct = "M";
-        else if(checkbox_size35.isChecked())
+        else if (checkbox_size35.isChecked())
             sizeProduct = "XL";
-        else if(checkbox_size36.isChecked())
+        else if (checkbox_size36.isChecked())
             sizeProduct = "L";
         return sizeProduct;
     }
-    public void updateResult(int[] inputID){
+
+    public void updateResult(int[] inputID) {
         color = inputID;
         int countColorSeleciton = color.length;
-        Log.d("dai.dv",""+countColorSeleciton);
+        Log.d("dai.dv", "" + countColorSeleciton);
         imagColor1.setImageResource(color[0]);
         imagColor2.setImageResource(color[1]);
         imagColor3.setImageResource(color[2]);
         imagColor4.setImageResource(color[3]);
     }
 
-    @OnClick (R.id.cre_pro_btn_back1)
-    public void back(){
+    @OnClick(R.id.cre_pro_btn_back1)
+    public void back() {
         finish();
     }
 }

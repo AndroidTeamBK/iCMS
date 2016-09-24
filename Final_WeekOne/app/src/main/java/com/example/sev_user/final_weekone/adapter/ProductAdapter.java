@@ -41,7 +41,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
     public ProductAdapter(Context context, int resource, ArrayList<Product> products) {
         super(context, resource, products);
-        mProducts = new ArrayList<>(products);
+        mProducts = products;
         oriProducts = new ArrayList<>(products);
         needShowMenuIcon = true;
     }
@@ -133,6 +133,10 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         needShowMenuIcon = showMenuIcon;
     }
 
+    @Override
+    public int getCount() {
+        return mProducts != null ? mProducts.size() : 0;
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {

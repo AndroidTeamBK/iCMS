@@ -86,14 +86,13 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.edit:
-                        Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
                         Customer customers = mCustomers.get(pos);
                         DataHolder.setCustomer(customers);
                         Intent intentEdit = new Intent(getContext(), CustomerEditActivity.class);
                         getContext().startActivity(intentEdit);
                         break;
                     case R.id.delete:
-                        Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                         mCustomers.remove(pos);
                         notifyDataSetChanged();
                         break;

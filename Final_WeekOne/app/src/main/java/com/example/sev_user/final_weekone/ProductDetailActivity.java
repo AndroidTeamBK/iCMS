@@ -52,9 +52,10 @@ public class ProductDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
-
-        mProduct = new ProductData().getListProduct();
+        String filterSku = getIntent().getStringExtra("sku");
+        mProduct = DataHolderProduct.getProducts();
         adapterProduct = new ProductAdapter(this, R.layout.row_product, mProduct, false);
+        adapterProduct.filterSKU(filterSku);
         lvProductDetail.setAdapter(adapterProduct);
         fillData2Spinner();
     }
@@ -72,6 +73,7 @@ public class ProductDetailActivity extends Activity {
 
     @OnClick(R.id.btn_filter)
     public void filterAndShowTilte() {
+        adapterProduct.resetData();
         linearLayoutFilter.setVisibility(View.GONE);
         relativeLayoutTitle.setVisibility(View.VISIBLE);
         int posSup = spSupplier.getSelectedItemPosition();
@@ -195,13 +197,5 @@ public class ProductDetailActivity extends Activity {
         Collections.sort(colors);
         colors.add(0, "Color");
         spColor.setAdapter(adapterSupplier);
-    }
-
-    @OnItemSelected(R.id.sp_supplier)
-    public void filterSupplier(int pos) {
-//        if (pos == 0)
-//            adapterProduct.filterSupplier("");
-//        else
-//            adapterProduct.filterSupplier(supppliers.get(pos));
     }
 }

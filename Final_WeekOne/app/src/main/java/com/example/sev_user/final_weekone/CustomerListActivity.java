@@ -122,19 +122,12 @@ public class CustomerListActivity extends Activity {
         mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
-    @OnItemClick(R.id.pro_list_lv)
     public void showEditCustomer(int pos) {
         Toast.makeText(this, "edit cus: " + mCustomer.get(pos).getCreditCustomer(), Toast.LENGTH_LONG).show();
         Customer customer1 = mCustomer.get(pos);
         Intent intentEdit = new Intent(getApplicationContext(), CustomerEditActivity.class);
         DataHolder.setCustomer(customer1);
         startActivity(intentEdit);
-    }
-
-    @OnItemLongClick(R.id.pro_list_lv)
-    public boolean deleteCustomer(int pos) {
-        Toast.makeText(this, "delete cus: " + mCustomer.get(pos).getCreditCustomer(), Toast.LENGTH_LONG).show();
-        return true;
     }
 
     @OnClick(R.id.cus_list_btn_add)

@@ -38,7 +38,7 @@ import butterknife.OnClick;
 /**
  * Created by toan on 14-Sep-16.
  */
-public class ProductCreateActivity extends Activity implements PopupSelectImageColor.EditDialogPopup{
+public class ProductCreateActivity extends Activity implements PopupSelectImageColor.EditDialogPopup {
 
     @Bind(R.id.cre_pro_btn_back)
     Button cre_pro_BtnBack;
@@ -80,9 +80,6 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
     @Bind(R.id.imageProduct1)
     ImageView imgnewProduct1;
 
-    @Bind(R.id.cre_pro_btn_create)
-    Button btn_cre_pro_create;
-
     @Bind(R.id.btn_imageProduct)
     Button addImagenewProduct;
 
@@ -93,9 +90,8 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
 
     private static final int REQUEST_CAMERA = 0;
     private static final int SELECT_FILE = 1;
-    private String userChoosenTask ="";
-    Bitmap bm=null;
-
+    private String userChoosenTask = "";
+    Bitmap bm = null;
 
 
     @Override
@@ -105,34 +101,38 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
         ButterKnife.bind(this);
         addSpinerBrandProduct();
         addSpinerSupplierProduct();
-        btn_cre_pro_create=(Button)findViewById(R.id.cre_pro_btn_create);
-        btn_cre_pro_create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                create_newProduct();
-            }
-        });
     }
-    /*@OnClick(R.id.cre_pro_btn_create)
-    public void creatProduct(){
+
+    @OnClick(R.id.cre_pro_btn_create)
+    public void creatProduct() {
         create_newProduct();
-    }*/
-    @OnClick(R.id.cre_pro_btn_back)
-    public void back(){
         finish();
     }
+
+    @OnClick(R.id.cre_pro_btn_cre_conti)
+    public void createAndContinue(){
+        create_newProduct();
+        resetInfo();
+    }
+
+    @OnClick(R.id.cre_pro_btn_back)
+    public void back() {
+        finish();
+    }
+
     @OnClick(R.id.btnAddColor)
-    public void showPopupSelectColorProduct(){
+    public void showPopupSelectColorProduct() {
         FragmentManager fragmentManager = getFragmentManager();
         PopupSelectImageColor popupselectColorProduct = new PopupSelectImageColor();
         popupselectColorProduct.show(fragmentManager, "edit_color_product");
 
     }
+
     @OnClick(R.id.btn_imageProduct)
-    public void selectImageProduct(){
-        Log.d("dai.dv","show........");
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
-                "Cancel" };
+    public void selectImageProduct() {
+        Log.d("dai.dv", "show........");
+        final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(ProductCreateActivity.this);
         builder.setTitle("Add Photo for Product");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -140,12 +140,12 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
             public void onClick(DialogInterface dialog, int item) {
                 boolean result = Utility.checkPermission(ProductCreateActivity.this);
                 if (items[item].equals("Take Photo")) {
-                    userChoosenTask="Take Photo";
-                    if(result)
+                    userChoosenTask = "Take Photo";
+                    if (result)
                         cameraIntent();
                 } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask="Choose from Library";
-                    if(result)
+                    userChoosenTask = "Choose from Library";
+                    if (result)
                         galleryIntent();
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -154,16 +154,17 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
         });
         builder.show();
     }
-    private void cameraIntent(){
+
+    private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,REQUEST_CAMERA);
+        startActivityForResult(intent, REQUEST_CAMERA);
     }
-    private void galleryIntent()
-    {
+
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
     @Override
@@ -192,6 +193,7 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
                 onCaptureImageResult(data);
         }
     }
+
     private void onSelectFromGalleryResult(Intent data) {
         //Bitmap bm=null;
         if (data != null) {
@@ -203,6 +205,7 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
         }
         imgnewProduct1.setImageBitmap(bm);
     }
+
     private void onCaptureImageResult(Intent data) {
         bm = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -223,7 +226,21 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
         imgnewProduct1.setImageBitmap(bm);
     }
 
-    public void create_newProduct(){
+    public void resetInfo(){
+        // set all information to empty
+        edt_cre_pro_skuNumber.setText("");
+        edt_cre_pro_name.setText("");
+        edt_cre_pro_quantity.setText("");
+        edt_cre_pro_balance.setText("");
+        edt_cre_pro_cost.setText("");
+        edt_cre_pro_unit.setText("");
+        edt_cre_pro_discounted.setText("");
+        checkbox_size34.setChecked(false);
+        checkbox_size35.setChecked(false);
+        checkbox_size36.setChecked(false);
+    }
+
+    public void create_newProduct() {
         String sku_newProduct = edt_cre_pro_skuNumber.getText().toString();
         String name_newProduct = edt_cre_pro_name.getText().toString();
         String quantity_newProduct = edt_cre_pro_quantity.getText().toString();
@@ -234,55 +251,57 @@ public class ProductCreateActivity extends Activity implements PopupSelectImageC
         String unitPrice_newProduct = edt_cre_pro_unit.getText().toString();
         String discountPrice_newProduct = edt_cre_pro_discounted.getText().toString();
         String size_newProduct = addSizeProduct();
-        if(sku_newProduct.matches("")||name_newProduct.matches("")||quantity_newProduct.matches("")||stockBlance_newProduct.matches(""))
-            Toast.makeText(this,"Please fill full information for creating customer",Toast.LENGTH_LONG).show();
+        if (sku_newProduct.matches("") || name_newProduct.matches("") || quantity_newProduct.matches("") || stockBlance_newProduct.matches(""))
+            Toast.makeText(this, "Please fill full information for creating customer", Toast.LENGTH_LONG).show();
         else {
             double costPrice = Double.parseDouble(costPrice_newProduct);
             double unitPrice = Double.parseDouble(unitPrice_newProduct);
             double discountPrice = Double.parseDouble(discountPrice_newProduct);
-            int id_addProduct = DataHolderProduct.getProducts().size()+1;
-            newProduct = new Product(id_addProduct,sku_newProduct,name_newProduct,quantity_newProduct,stockBlance_newProduct,brand_newProduct,supplier_newProduct,
-                    costPrice,unitPrice,discountPrice,size_newProduct,color,bm);
+            int id_addProduct = DataHolderProduct.getProducts().size() + 1;
+            newProduct = new Product(id_addProduct, sku_newProduct, name_newProduct, quantity_newProduct, stockBlance_newProduct, brand_newProduct, supplier_newProduct,
+                    costPrice, unitPrice, discountPrice, size_newProduct, color, bm);
             DataHolderProduct.addProduct(newProduct);
-            Intent i = new Intent(getApplicationContext(),ProductListActivity.class);
-            startActivity(i);
         }
 
     }
-    public void addSpinerBrandProduct(){
+
+    public void addSpinerBrandProduct() {
         list_brandProduct = new ArrayList<String>();
         list_brandProduct.add("Samsung");
         list_brandProduct.add("Apple");
         list_brandProduct.add("Nokia");
-        spn_cre_pro_brand =(Spinner)findViewById(R.id.cre_pro_spinner_brand);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list_brandProduct);
+        spn_cre_pro_brand = (Spinner) findViewById(R.id.cre_pro_spinner_brand);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_brandProduct);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_cre_pro_brand.setAdapter(dataAdapter);
     }
-    public void addSpinerSupplierProduct(){
+
+    public void addSpinerSupplierProduct() {
         list_supplierProduct = new ArrayList<String>();
         list_supplierProduct.add("Mr.Dai");
         list_supplierProduct.add("Mr.Toan");
         list_supplierProduct.add("Mr.Robinson");
-        spn_cre_pro_supplier = (Spinner)findViewById(R.id.cre_pro_spinner_supplier);
-        ArrayAdapter<String> dataadapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list_supplierProduct);
+        spn_cre_pro_supplier = (Spinner) findViewById(R.id.cre_pro_spinner_supplier);
+        ArrayAdapter<String> dataadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_supplierProduct);
         dataadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_cre_pro_supplier.setAdapter(dataadapter);
     }
-    public String addSizeProduct(){
-        String sizeProduct="";
-        if(checkbox_size34.isChecked())
+
+    public String addSizeProduct() {
+        String sizeProduct = "";
+        if (checkbox_size34.isChecked())
             sizeProduct = "M";
-        else if(checkbox_size35.isChecked())
+        else if (checkbox_size35.isChecked())
             sizeProduct = "XL";
-        else if(checkbox_size36.isChecked())
+        else if (checkbox_size36.isChecked())
             sizeProduct = "L";
         return sizeProduct;
     }
-    public void updateResult(int[] inputID){
+
+    public void updateResult(int[] inputID) {
         color = inputID;
         int countColorSeleciton = color.length;
-        Log.d("dai.dv",""+countColorSeleciton);
+        Log.d("dai.dv", "" + countColorSeleciton);
         imagColor1.setImageResource(color[0]);
         imagColor2.setImageResource(color[1]);
         imagColor3.setImageResource(color[2]);

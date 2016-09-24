@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.example.sev_user.final_weekone.adapter.ProductAdapter;
 import com.example.sev_user.final_weekone.data.ProductData;
 import com.example.sev_user.final_weekone.model.Product;
+import com.example.sev_user.final_weekone.myinterface.AdapterCallActivity;
 
 import java.util.ArrayList;
 
@@ -35,7 +37,7 @@ import butterknife.OnTextChanged;
 /**
  * Created by toan on 14-Sep-16.
  */
-public class ProductListActivity extends Activity {
+public class ProductListActivity extends Activity implements AdapterCallActivity {
 
     @Bind(R.id.navList)
     ListView mDrawerList;
@@ -62,8 +64,11 @@ public class ProductListActivity extends Activity {
         setContentView(R.layout.activity_product_list);
         ButterKnife.bind(this);
         addDrawerItemsAdimin();
-
         //mProduct = new ProductData().getListProduct();
+        fillData2ListView();
+    }
+
+    void fillData2ListView() {
         Bitmap temp_ImageProduct = BitmapFactory.decodeResource(getResources(),
                 R.drawable.image);
 
@@ -75,7 +80,8 @@ public class ProductListActivity extends Activity {
                     //DataHolderProduct.addProduct(mProduct.get(i));
                 }
             }
-        } else mProduct = DataHolderProduct.getProducts();
+        } else
+            mProduct = DataHolderProduct.getProducts();
         adapterProduct = new ProductAdapter(this, R.layout.row_product, mProduct);
         lvProduct.setAdapter(adapterProduct);
     }
@@ -83,7 +89,8 @@ public class ProductListActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        updateListview();
+        fillData2ListView();
+        //updateListview();
     }
 
     private void updateListview() {
@@ -143,6 +150,7 @@ public class ProductListActivity extends Activity {
         Intent intentTransfer = new Intent(this, TransferProductActivity.class);
         startActivity(intentTransfer);
     }
+
     void hideKeyBoard() {
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -160,9 +168,8 @@ public class ProductListActivity extends Activity {
 
     @OnItemClick(R.id.pro_list_lv)
     public void showProductDetail(int pos) {
-        //Product product = mProduct.get(pos);
         Intent intentDetail = new Intent(this, ProductDetailActivity.class);
-        //DataHolderProduct.setProduct(product);
+        intentDetail.putExtra("sku", mProduct.get(pos).getSkuNumber());
         startActivity(intentDetail);
     }
 
@@ -181,5 +188,16 @@ public class ProductListActivity extends Activity {
                 clickedBack1Time = false;
             }
         }, 1000);
+    }
+
+    @Override
+    public void deleteIteam(int pos) {
+        mProduct.remove(pos);
+        adapterProduct.notifyDataSetChanged();
+    }
+
+    @Override
+    public void editItem(int pos) {
+
     }
 }

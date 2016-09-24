@@ -29,8 +29,6 @@ public class CustomerEditActivity extends Activity {
     EditText edit_create_cu_phone;
     @Bind(R.id.create_cu_credit)
     EditText edit_Create_cu_credit;
-    @Bind(R.id.ed_cus_btn)
-    Button btn_save;
 
 
     Customer customer_FromLst;
@@ -42,14 +40,6 @@ public class CustomerEditActivity extends Activity {
         setContentView(R.layout.activity_customer_edit);
         ButterKnife.bind(this);
         showCustomerFromListview();
-
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                edit_customerInfor();
-                DataHolder.setCustomer(customer_FromLst);
-            }
-        });
     }
     public void showCustomerFromListview(){
         customer_FromLst = DataHolder.getCustomer();
@@ -73,6 +63,13 @@ public class CustomerEditActivity extends Activity {
         customer_FromLst.setPhoneCustomer(cu_phone);
         String cu_credit = edit_Create_cu_credit.getText().toString();
         customer_FromLst.setCreditCustomer(Integer.parseInt(cu_credit));
+    }
+
+    @OnClick(R.id.ed_cus_btn)
+    public void saveInfor(){
+        edit_customerInfor();
+        DataHolder.setCustomer(customer_FromLst);
+        finish();
     }
 
     @OnClick(R.id.ed_cus_btn_back)
