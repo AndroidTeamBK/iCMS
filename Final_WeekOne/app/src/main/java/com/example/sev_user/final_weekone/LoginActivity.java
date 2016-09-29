@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by toan on 14-Sep-16.
  */
-public class LoginActivity extends Activity implements LoginInterface{
+public class LoginActivity extends Activity implements LoginInterface {
     @Bind(R.id.login_ed_name)
     EditText edName;
 
@@ -41,23 +42,31 @@ public class LoginActivity extends Activity implements LoginInterface{
     }
 
     @Override
-    public void loginAsAdmin() {
+    public void loginAsAdmin(String name) {
+        Log.e("toan.tv", "server return name: " + name);
         Intent intentAdmin = new Intent(this, ProductListActivity.class);
         startActivity(intentAdmin);
         finish();
     }
 
     @Override
-    public void loginAsRetailer() {
+    public void loginAsRetailer(String name) {
+        Log.e("toan.tv", "server return name: " + name);
         Intent intentRetailer = new Intent(this, CustomerListActivity.class);
         startActivity(intentRetailer);
         finish();
     }
 
     @Override
-    public void loginError() {
+    public void loginInvalidAccount() {
         Toast.makeText(getApplicationContext(), "Account is not valid", Toast.LENGTH_SHORT).show();
         edName.setText("");
         edPass.setText("");
     }
+
+    @Override
+    public void loginNetworkError() {
+        Toast.makeText(getApplicationContext(), "Account is not valid", Toast.LENGTH_SHORT).show();
+    }
+
 }
