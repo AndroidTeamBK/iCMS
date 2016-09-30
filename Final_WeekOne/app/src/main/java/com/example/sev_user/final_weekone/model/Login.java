@@ -34,7 +34,6 @@ public class Login {
 
     public void isValidateAccount(String userName, String passWord) {
         new AsynTaskLogin().execute(userName, passWord);
-
     }
 
     class AsynTaskLogin extends AsyncTask<String, Void, Integer> {
@@ -52,9 +51,8 @@ public class Login {
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setUseCaches(false);
                 httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                httpURLConnection.setRequestProperty("Accept", "application/json; charset=UTF-8");
 
-                httpURLConnection.addRequestProperty("Accept", "application/json; charset=UTF-8");
-                httpURLConnection.connect();
                 // json object to post value to server
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", name);
@@ -62,6 +60,9 @@ public class Login {
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 outputStream.write(jsonParam.toString().getBytes("UTF-8"));
+                outputStream.close();
+                httpURLConnection.connect();
+
 
                 int resultCode = httpURLConnection.getResponseCode();
                 Log.e("toan.tv", "status: " + resultCode);
@@ -75,9 +76,11 @@ public class Login {
                     JSONObject jsonObject = new JSONObject(stringBuilder.toString());
                     Log.e("toan.tv", "result login: " + stringBuilder.toString());
                     try {
-                        JSONObject jsonUser = jsonObject.getJSONObject("data").getJSONObject("user");
+                        JSONObject jsonData = jsonObject.getJSONObject("data");
+                        JSONObject jsonUser = jsonData.getJSONObject("user");
                         userName = jsonUser.getString("name");
                         String userType = jsonUser.getString("type");
+                        Utils.mToken = jsonData.getString("token");
                         switch (userType) {
                             case "admin":
                                 return Utils.LOGIN_ADMIN;

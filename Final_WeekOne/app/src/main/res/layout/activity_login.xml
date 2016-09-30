@@ -39,6 +39,7 @@
                 android:background="@drawable/circle"
                 android:gravity="center_vertical"
                 android:hint="User name/Email"
+                android:text="admin@example.com"
                 android:maxLines="1" />
 
             <EditText
@@ -49,6 +50,7 @@
                 android:background="@drawable/circle"
                 android:gravity="center_vertical"
                 android:hint="Password"
+                android:text="123456"
                 android:inputType="textPassword"
                 android:maxLines="1" />
 

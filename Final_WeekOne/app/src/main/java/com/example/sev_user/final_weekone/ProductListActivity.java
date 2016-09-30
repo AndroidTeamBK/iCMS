@@ -22,8 +22,10 @@ import android.widget.Toast;
 
 import com.example.sev_user.final_weekone.adapter.ProductAdapter;
 import com.example.sev_user.final_weekone.data.ProductData;
+import com.example.sev_user.final_weekone.model.Logout;
 import com.example.sev_user.final_weekone.model.Product;
 import com.example.sev_user.final_weekone.myinterface.AdapterCallActivity;
+import com.example.sev_user.final_weekone.myinterface.LogOutInterface;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ import butterknife.OnTextChanged;
 /**
  * Created by toan on 14-Sep-16.
  */
-public class ProductListActivity extends Activity implements AdapterCallActivity {
+public class ProductListActivity extends Activity implements AdapterCallActivity, LogOutInterface {
 
     @Bind(R.id.navList)
     ListView mDrawerList;
@@ -57,6 +59,8 @@ public class ProductListActivity extends Activity implements AdapterCallActivity
 
     ArrayList<Product> mProduct;
     ProductAdapter adapterProduct;
+
+    ProductListActivity productListActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +99,9 @@ public class ProductListActivity extends Activity implements AdapterCallActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String itemValue = (String) mDrawerList.getItemAtPosition(position);
                 if (itemValue == osArray[1]) {
-                    Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intentLogin);
-                    finish();
+                    Logout logout = new Logout(productListActivity);
+                    logout.exceute();
+
                 }
                 if (itemValue == osArray[0]) {
                     mDrawerLayout.closeDrawers();
@@ -186,5 +190,17 @@ public class ProductListActivity extends Activity implements AdapterCallActivity
     @Override
     public void editItem(int pos) {
 
+    }
+
+    @Override
+    public void logoutSuccess() {
+        Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intentLogin);
+        finish();
+    }
+
+    @Override
+    public void logoutError() {
+        Toast.makeText(getApplicationContext(), "There are problem when logout, try it again!", Toast.LENGTH_LONG).show();
     }
 }
